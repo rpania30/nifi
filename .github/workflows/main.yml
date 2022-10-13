@@ -1,0 +1,23 @@
+name: main
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [push]
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+          #with:
+            #repository: rpania30/jsonex
+            #submodules: 'true'
+            #path: './depencies/vtk'
+            #ref: 83cd2edafbca4438abee6542162ab206ad3fedd8
+        - name: Set up JDK 8
+          uses: actions/setup-java@v3
+          with:
+            java-version: '8'
+            distribution: 'adopt'
+            cache: maven
+        - run: mvn test-compile -pl nifi -am
+        - run: mvn -pl nifi test -Dtest=nifi-nar-bundles/nifi-ldap-iaa-providers-bundle/nifi-ldap-iaa-providers,org.apache.nifi.ldap.tenants.LdapUserGroupProviderTest#testGetGroupByName
+        - run: mvn -pl nifi edu.illinois:nondex-maven-plugin:1.1.2:nondex -Dtest=nifi-nar-bundles/nifi-ldap-iaa-providers-bundle/nifi-ldap-iaa-providers,org.apache.nifi.ldap.tenants.LdapUserGroupProviderTest#testGetGroupByName
